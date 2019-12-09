@@ -6,6 +6,11 @@ import { MovieModel } from './movie-model';
 const IMAGE_BASE_URL = 'http://image.tmdb.org/t/p/w500';
 
 export default class MoviesList extends Component {
+    static navigationOptions = {
+        title: 'Upcoming Movies List',
+    };
+
+
   constructor(props) {
     super(props);
 
@@ -98,23 +103,16 @@ export default class MoviesList extends Component {
 
   getImageUrl = (imagePath) => (IMAGE_BASE_URL + imagePath);
 
-  renderMovieItem = React.memo( ({ item }) => (
-    <ListItem
-    title={`${item.title}`}
-    subtitle={`Release date: ${item.release_date}`}
-    containerStyle={{ borderBottomWidth: 0 }}
-    leftAvatar={{ source: { uri: this.getImageUrl(item.poster_path) }}}
-    />
-  ));
-
-//   renderMovieItem = ({ item }) => (
-//         <ListItem
-//         title={`${item.title}`}
-//         subtitle={`Release date: ${item.release_date}`}
-//         containerStyle={{ borderBottomWidth: 0 }}
-//         leftAvatar={{ source: { uri: this.getImageUrl(item.poster_path) }}}
-//         />
-//     )
+  
+  renderMovieItem = ({ item }) => (
+        <ListItem
+        title={`${item.title}`}
+        subtitle={`Release date: ${item.release_date}`}
+        containerStyle={{ borderBottomWidth: 0 }}
+        leftAvatar={{ source: { uri: this.getImageUrl(item.poster_path) }}}
+        onPress={() => this.props.navigation.navigate('DetailsScreen',{ movieId: item.id })}
+        />
+    )
 
   render() {
     return (
