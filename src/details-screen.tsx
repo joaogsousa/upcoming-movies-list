@@ -1,14 +1,9 @@
 import React, { Component } from "react";
-import { ListItem, SearchBar } from "react-native-elements";
 import {
   StyleSheet,
   Text,
   View,
   Image,
-  TouchableOpacity,
-  FlatList,
-  Dimensions,
-  Alert,
   ScrollView
 } from 'react-native';
 
@@ -67,7 +62,7 @@ export default class DetailsScreen extends Component {
     const data = this.state.data;
     return (
       <>
-        {this.state.data && 
+        {data && 
           <View style={styles.container}>
             <ScrollView style={styles.content}>
               <View style={styles.card}>
@@ -76,7 +71,7 @@ export default class DetailsScreen extends Component {
                 </View>
                 <View style={styles.cardContent}>
                   <View style={styles.header}>
-                    <View style={styles.mainImageContainer}>
+                    <View>
                       <Image style={styles.mainImage} source={{uri: this.getImageUrl(data.poster_path)}}/>
                     </View>
                   </View>

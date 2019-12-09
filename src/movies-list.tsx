@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text, FlatList, ActivityIndicator } from "react-native";
-import { ListItem, SearchBar } from "react-native-elements";
-import { MovieModel } from './movie-model';
+import { View, FlatList, ActivityIndicator } from "react-native";
+import { ListItem } from "react-native-elements";
 
 const IMAGE_BASE_URL = 'http://image.tmdb.org/t/p/w500';
 
@@ -116,7 +115,7 @@ export default class MoviesList extends Component {
 
   render() {
     return (
-        <View style={styles.listContainer}>
+        <View>
             <FlatList
             data={this.state.data}
             renderItem={this.renderMovieItem}
@@ -131,11 +130,4 @@ export default class MoviesList extends Component {
         </View>
     );
   }
-} 
-
-const styles = StyleSheet.create({
-    listContainer: {
-      flex: 22,
-      alignSelf: 'stretch',
-    },
-});
+}
