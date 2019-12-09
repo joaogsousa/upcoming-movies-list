@@ -1,8 +1,18 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text, FlatList, ActivityIndicator } from "react-native";
 import { ListItem, SearchBar } from "react-native-elements";
-import { MovieModel } from './movie-model';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  FlatList,
+  Dimensions,
+  Alert,
+  ScrollView
+} from 'react-native';
 
+const IMAGE_BASE_URL = 'http://image.tmdb.org/t/p/w500';
 
 export default class DetailsScreen extends Component {
   static navigationOptions = {
@@ -16,6 +26,7 @@ export default class DetailsScreen extends Component {
       loading: false,
       data: null,
       error: null,
+      modalVisible:false,
     };
   }
 
@@ -50,13 +61,157 @@ export default class DetailsScreen extends Component {
       });
   };
 
+  getImageUrl = (imagePath) => (IMAGE_BASE_URL + imagePath);
 
   render() {
-    console.log(" o que foi recebido no data: ", this.state.data);
+    const data = this.state.data;
     return (
-      <View>
-      </View>
+      <>
+        {this.state.data && 
+          <View style={styles.container}>
+            <ScrollView style={styles.content}>
+              <View style={styles.card}>
+                <View style={styles.cardHeader}>
+                  <Text style={styles.name}>{data.title}</Text>
+                </View>
+                <View style={styles.cardContent}>
+                  <View style={styles.header}>
+                    <View style={styles.mainImageContainer}>
+                      <Image style={styles.mainImage} source={{uri: this.getImageUrl(data.poster_path)}}/>
+                    </View>
+                  </View>
+                </View>
+              </View>
+
+
+              <View style={styles.card}>
+                <View style={styles.cardHeader}>
+                  <Text style={styles.cardTitle}>Overview</Text>
+                </View>
+                <View style={styles.cardContent}>
+                  <Text style={styles.description}>{data.overview}</Text>
+                </View>
+              </View>
+
+              <View style={styles.card}>
+                <View style={styles.cardHeader}>
+                  <Text style={styles.cardTitle}>General information</Text>
+                </View>
+                <View style={styles.cardContent}>
+                  <Text style={styles.description}> Release date: {data.release_date}  </Text>
+                  <Text style={styles.description}> Genre: {data.genres[0].name} </Text>
+                  <Text style={styles.description}> Original language: {data.original_language} </Text>
+                  <Text style={styles.description}> Popularity: {data.popularity} </Text>
+                  <Text style={styles.description}> Status: {data.status} </Text>
+                  <Text style={styles.description}> Vote average: {data.vote_average} </Text>
+                  <Text style={styles.description}> Vote count: {data.vote_count} </Text>
+
+                </View>
+              </View>
+
+            </ScrollView>
+          </View>
+        }
+      </>
     );
   }
 } 
+
+const styles = StyleSheet.create({
+  container:{
+    flex:1,
+    marginTop:0,
+    backgroundColor:"#ebf0f7",
+  },
+  content:{
+    marginLeft:10,
+    marginRight:10,
+    marginTop:20,
+  },
+  header:{
+    flexDirection:'row',
+  },
+  mainImage:{
+    width:200,
+    height:200,
+  },
+  smallImagesContainer:{
+    flexDirection:'column',
+    marginLeft:30
+  },
+  smallImage:{
+    width:60,
+    height:60,
+    marginTop:5, 
+  },
+  btnColor: {
+    height:40,
+    width:40,
+    borderRadius:40,
+    marginHorizontal:3
+  },
+  contentColors:{
+    flexDirection:'row', 
+  },
+  name:{
+    fontSize:22,
+    color:"#696969",
+    fontWeight:'bold',
+  },
+  price:{
+    marginTop:10,
+    fontSize:18,
+    color:"green",
+    fontWeight:'bold'
+  },
+  description:{
+    fontSize:18,
+    color:"#696969",
+  },
+  shareButton: {
+    marginTop:10,
+    height:45,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius:30,
+    backgroundColor: "#00BFFF",
+  },
+  shareButtonText:{
+    color: "#FFFFFF",
+    fontSize:20,
+  },
+
+  /******** card **************/
+  card:{
+    shadowColor: '#00000021',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.37,
+    shadowRadius: 7.49,
+    elevation: 12,
+
+    marginVertical: 5,
+    backgroundColor:"white",
+    marginHorizontal: 5,
+  },
+  cardContent: {
+    paddingVertical: 12.5,
+    paddingHorizontal: 16,
+  },
+  cardHeader:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 12.5,
+    paddingBottom: 25,
+    paddingHorizontal: 16,
+    borderBottomLeftRadius: 1,
+    borderBottomRightRadius: 1,
+  },
+  cardTitle:{
+    color:"#00BFFF"
+  }
+});  
 
